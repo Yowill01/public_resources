@@ -5,10 +5,12 @@ from abc import ABC, abstractmethod
 
 class Beverage(ABC):
     @abstractmethod
-    def cost(self) -> int: ...
+    def cost(self) -> int:
+        ...
 
     @abstractmethod
-    def description(self) -> str: ...
+    def description(self) -> str:
+        ...
 
 
 class Coffee(Beverage):
@@ -41,9 +43,15 @@ class SugarDecorator(Beverage):
         return self._inner.description() + " + sugar"
 
 
-# TODO: implement CaramelDecorator following the same pattern as MilkDecorator
-# cost(): self._inner.cost() + 15
-# description(): self._inner.description() + " + caramel"
+class CaramelDecorator(Beverage):
+    def __init__(self, inner: Beverage) -> None:
+        self._inner = inner
+
+    def cost(self) -> int:
+        return self._inner.cost() + 15
+
+    def description(self) -> str:
+        return self._inner.description() + " + caramel"
 
 
 def main() -> None:
@@ -53,7 +61,8 @@ def main() -> None:
     cup2 = MilkDecorator(SugarDecorator(Coffee()))
     print(cup2.description(), cup2.cost())
 
-    # TODO: build CaramelDecorator(MilkDecorator(SugarDecorator(Coffee()))) and print it
+    cup3 = CaramelDecorator(MilkDecorator(SugarDecorator(Coffee())))
+    print(cup3.description(), cup3.cost())
 
 
 if __name__ == "__main__":
